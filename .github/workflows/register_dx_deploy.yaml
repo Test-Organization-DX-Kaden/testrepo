@@ -21,7 +21,7 @@ jobs:
           repo=${{ github.repository }}
           
           # This is optional - drop from curl if not used
-          service="Kaden Service Test"
+          service="kaden-test"
           json_payload=$(jq -n \
                   --arg service "$service" \
                   --arg repo "$repo" \
