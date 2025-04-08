@@ -18,7 +18,7 @@ jobs:
         run: |
           sha=$(git rev-parse HEAD)
           ts=$(date +%s)
-          repo=${{ github.repository }}
+          repo="Test-Organization-DX-Kaden/testrepo"
           
           # This is optional - drop from curl if not used
           service="kaden-test"
