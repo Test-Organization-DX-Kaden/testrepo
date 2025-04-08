@@ -10,6 +10,9 @@ jobs:
       API_TOKEN: ${{ secrets.DX_DEPLOYMENT_API_TOKEN }}
       DATACLOUD_HOST: ${{ secrets.DX_DATACLOUD_HOST }}
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
       - name: Register deploy
         if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' # Change 'main' to your base branch name
         run: |
