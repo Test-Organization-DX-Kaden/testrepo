@@ -28,7 +28,7 @@ jobs:
                   --arg repo "$repo" \
                   --arg sha "$sha" \
                   --arg ts "$ts" \
-                  --arg ts "$environment" \
+                  --arg environment "$environment" \
                   '{
                     service: $service,
                     repository: $repo,
