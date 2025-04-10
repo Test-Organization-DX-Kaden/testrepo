@@ -55,8 +55,3 @@ jobs:
   
             exit 1 # Fail the step explicitly if an error is detected 
           fi
-
-          if [ "$RESPONSE" -e 200 ]; then
-            echo "Success"
-          fi
-          
