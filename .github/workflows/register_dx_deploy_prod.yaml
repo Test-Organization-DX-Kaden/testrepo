@@ -1,0 +1,62 @@
+name: Register deploy in DX Data Cloud
+on:
+  pull_request:
+    types:
+      - closed
+jobs:
+  register_deploy:
+    runs-on: ubuntu-latest
+    env:
+      API_TOKEN: ${{ secrets.DX_DEPLOYMENT_API_TOKEN }}
+      DATACLOUD_HOST: ${{ secrets.DX_DATACLOUD_HOST }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Register deploy
+        if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' # Change 'main' to your base branch name
+        run: |
+          sha=$(git rev-parse HEAD)
+          ts=$(date +%s)
+          repo="Test-Organization-DX-Kaden/testrepo"
+          
+          # This is optional - drop from curl if not used
+          service="kaden-test"
+          environment="Production"
+          json_payload=$(jq -n \
+                  --arg service "$service" \
+                  --arg repo "$repo" \
+                  --arg sha "$sha" \
+                  --arg ts "$ts" \
+                  --arg ts "$environment" \
+                  '{
+                    service: $service,
+                    repository: $repo,
+                    commit_sha: $sha,
+                    deployed_at: $ts,
+                    environment: $environment
+                  }')
+          RESPONSE_CODE=$(curl \
+            "https://${DATACLOUD_HOST}/api/deployments.create"\
+            -s -o response.txt\
+            -w "%{http_code}" -X POST \
+            -H "Authorization: Bearer ${API_TOKEN}" \
+            -H "Content-Type: application/json"       \
+            -d "$json_payload"
+          ) 
+
+          if [ "$RESPONSE" -ne 200 ]; then
+            ERROR_MESSAGE=$(jq -r '.message' response.txt) 
+            ERROR_TYPE=$(jq -r '.error' response.txt) 
+  
+            echo "Error response from API: HTTP status code $RESPONSE"
+            echo "Error type: $ERROR_TYPE" 
+            echo "Error message: $ERROR_MESSAGE"
+  
+            exit 1 # Fail the step explicitly if an error is detected 
+          fi
+
+          if [ "$RESPONSE" -e 200 ]; then
+            echo "Success"
+          fi
+          
