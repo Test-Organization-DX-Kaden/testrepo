@@ -1,0 +1,32 @@
+---
+id: "7388252e-d30c-4ae0-bd99-0f2192213538"
+modelType: "Platform"
+sysCode: "appcat"
+name: "Application Catalog"
+platformId: "7388252e-d30c-4ae0-bd99-0f2192213538"
+appType: "Built"
+description: "The Application Catalog system manages the master list of all applications\
+  \ maintained in the Wiley ecosystem."
+state: "Active"
+documentationUrl: "https://confluence.wiley.com/display/DEVOPS/AppCat"
+financialData:
+  applies: false
+personalData:
+  applies: true
+  scope:
+  - "Employee"
+usages:
+- "Internal"
+hostedBy: "aws"
+deploymentModel: "Clustered"
+functionalArea: "technology-strategy"
+operatingLevelTarget:
+  applies: true
+  redundancyScope: "BackupOnly"
+  downtimeFrequency: "Daily"
+  downtimeDuration: 450
+  solaUrl: "https://confluence.wiley.com/x/O3VLCQ"
+  availability: "99.9"
+  recoveryPoint: 1440
+  recoveryTime: 60
+isApplication: false
